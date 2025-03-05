@@ -22,6 +22,9 @@ class Player:
 
     def __str__(self):
         return self.name
+    
+    def __getHand__(self):
+        return self.hand
 
 
 class PokerTable:
