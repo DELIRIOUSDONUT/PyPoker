@@ -93,7 +93,30 @@ class Scorer():
         return {'name': "High Card",
                 'cards': self.cards[0]}
 
-        # Find the highest suit with that rank
+    def one_pair(self):
+        for i in range(len(self.cards), 1, -1):
+            if self.CARD_VALUES[self.cards[i][:-1]] == self.CARD_VALUES[self.cards[i-1][:-1]]:
+                # Highest pair found
+                return {'name': "Pair",
+                        'cards': self.cards[i-1] + self.cards[i]}
+        return None
+                
+    def two_pair(self):
+        pairs = []
+        for i in range(len(self.cards), 1, -1):
+            if self.CARD_VALUES[self.cards[i][:-1]] == self.CARD_VALUES[self.cards[i-1][:-1]]:
+                # Highest pair found, now to find next pair
+                pairs.append(self.cards[i-1])
+                pairs.append(self.cards[i])
+                for j in range(i-2, 1, -1):
+                    if self.CARD_VALUES[self.cards[j][:-1]] == self.CARD_VALUES[self.cards[j-1][:-1]]:
+                        # Both pairs found
+                        pairs.append(self.cards[j-1])
+                        pairs.append(self.cards[j])
+                        return {'name': "Two Pair",
+                                'cards': pairs}
+        return None
+            
     #TODO: resolving ties? not needed for texas holdem
-    #TODO: straight flush, royal flush, four kind, three kind, one and two pair, full house
+    #TODO: straight flush, royal flush, four kind, three kind, full house
 
